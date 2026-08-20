@@ -1,4 +1,9 @@
 # Change Log
+### [3.1.0]
+* separate mac keybindings: `ctrl+alt+b` and `shift+ctrl+alt+b`, since `option+b` types a character and `cmd+option+b` is taken by the secondary side bar
+* marketplace copy says what sets this fork apart from the original, keywords trimmed to the five the marketplace accepts
+* readme covers installing from the registry and how a release is cut
+
 ### [3.0.0]
 Cursor fork, published as `cloudo.open-in-browser`.
 
@@ -6,7 +11,6 @@ Cursor fork, published as `cloudo.open-in-browser`.
 * supported in untrusted workspaces, declared as a `ui` extension for remote setups
 * `opn` replaced with `open@8`, Edge added on Mac and Linux
 * errors are reported: unsaved file, unknown browser in settings, browser not installed
-* separate mac keybindings: `ctrl+alt+b` and `shift+ctrl+alt+b`, since `option+b` types a character and `cmd+option+b` is taken by the secondary side bar
 * new setting `open-in-browser.showForAllFiles`
 * build cleaned up: `@types/vscode`, TypeScript 5, `@vscode/vsce`, dev dependencies no longer shipped
 

@@ -3,7 +3,7 @@
     "displayName": "Open in Browser",
     "description": "Open the current file in your default browser or pick another one. Maintained fork of techer.open-in-browser, updated for Cursor.",
     "icon": "images/icon.png",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "publisher": "cloudo",
     "license": "MIT",
     "repository": {
