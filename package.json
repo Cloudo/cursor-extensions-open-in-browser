@@ -1,7 +1,7 @@
 {
     "name": "open-in-browser",
     "displayName": "Open in Browser",
-    "description": "Open the current file in your default browser or another installed browser. Cursor-ready fork.",
+    "description": "Open the current file in your default browser or pick another one. Maintained fork of techer.open-in-browser, updated for Cursor.",
     "icon": "images/icon.png",
     "version": "3.0.0",
     "publisher": "cloudo",
@@ -21,8 +21,9 @@
     ],
     "keywords": [
         "open",
-        "html",
         "browser",
+        "html",
+        "preview",
         "cursor"
     ],
     "extensionKind": [
@@ -71,11 +72,13 @@
         "keybindings": [
             {
                 "command": "open-in-browser.openInSpecifyBrowser",
-                "key": "shift+alt+B"
+                "key": "shift+alt+b",
+                "mac": "shift+ctrl+alt+b"
             },
             {
                 "command": "open-in-browser.openInDefaultBrowser",
-                "key": "Alt+B"
+                "key": "alt+b",
+                "mac": "ctrl+alt+b"
             }
         ],
         "menus": {
