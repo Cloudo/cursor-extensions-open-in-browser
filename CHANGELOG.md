@@ -1,4 +1,19 @@
 # Change Log
+### [3.0.0]
+Cursor fork, published as `cloudo.open-in-browser`.
+
+* commands renamed from `extension.*` to `open-in-browser.*`
+* supported in untrusted workspaces, declared as a `ui` extension for remote setups
+* `opn` replaced with `open@8`, Edge added on Mac and Linux
+* errors are reported: unsaved file, unknown browser in settings, browser not installed
+* new setting `open-in-browser.showForAllFiles`
+* build cleaned up: `@types/vscode`, TypeScript 5, `@vscode/vsce`, dev dependencies no longer shipped
+
+### [2.0.0]
+rewritten in TypeScript, `opn` used to launch browsers
+
+added Chromium and Firefox Developer Edition
+
 ### [1.2.0]
 added context menu option to tab bar
 
