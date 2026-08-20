@@ -1,13 +1,20 @@
 {
     "name": "open-in-browser",
-    "displayName": "open in browser",
-    "description": "This allows you to open the current file in your default browser or application.",
+    "displayName": "Open in Browser",
+    "description": "Open the current file in your default browser or another installed browser. Cursor-ready fork.",
     "icon": "images/icon.png",
-    "version": "2.0.0",
-    "publisher": "techer",
-    "repository": "https://github.com/SudoKillMe/vscode-extensions-open-in-browser",
+    "version": "3.0.0",
+    "publisher": "cloudo",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Cloudo/cursor-extensions-open-in-browser.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Cloudo/cursor-extensions-open-in-browser/issues"
+    },
     "engines": {
-        "vscode": "^1.15.0"
+        "vscode": "^1.75.0"
     },
     "categories": [
         "Other"
@@ -15,80 +22,96 @@
     "keywords": [
         "open",
         "html",
-        "browser"
+        "browser",
+        "cursor"
     ],
-    "activationEvents": [
-        "onCommand:extension.openInDefaultBrowser",
-        "onCommand:extension.openInSpecifyBrowser"
+    "extensionKind": [
+        "ui",
+        "workspace"
     ],
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": true
+        },
+        "virtualWorkspaces": {
+            "supported": false,
+            "description": "The file has to exist on disk to be opened by a browser."
+        }
+    },
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.openInDefaultBrowser",
-                "title": "Open In Default Browser"
+                "command": "open-in-browser.openInDefaultBrowser",
+                "title": "Open In Default Browser",
+                "category": "Open in Browser"
             },
-
             {
-                "command": "extension.openInSpecifyBrowser",
-                "title": "Open In Other Browsers"
+                "command": "open-in-browser.openInSpecifyBrowser",
+                "title": "Open In Other Browsers",
+                "category": "Open in Browser"
             }
         ],
         "configuration": {
             "type": "object",
-            "title": "plugin open-in-browser",
+            "title": "Open in Browser",
             "properties": {
                 "open-in-browser.default": {
                     "type": "string",
                     "default": "",
-                    "description": "Set default browser"
+                    "description": "Set default browser: chrome, firefox, edge, safari, opera, chromium, ie, firefox developer edition. Empty means the system default browser."
+                },
+                "open-in-browser.showForAllFiles": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Show the context menu items for every file, not only for html."
                 }
             }
         },
         "keybindings": [
             {
-                "command": "extension.openInSpecifyBrowser",
+                "command": "open-in-browser.openInSpecifyBrowser",
                 "key": "shift+alt+B"
             },
             {
-                "command": "extension.openInDefaultBrowser",
+                "command": "open-in-browser.openInDefaultBrowser",
                 "key": "Alt+B"
             }
         ],
         "menus": {
             "explorer/context": [
                 {
-                    "when": "resourceLangId == html",
-                    "command": "extension.openInDefaultBrowser",
+                    "when": "resourceLangId == html || config.open-in-browser.showForAllFiles",
+                    "command": "open-in-browser.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
-                    "when": "resourceLangId == html",
-                    "command": "extension.openInSpecifyBrowser",
+                    "when": "resourceLangId == html || config.open-in-browser.showForAllFiles",
+                    "command": "open-in-browser.openInSpecifyBrowser",
                     "group": "open-in-browser"
                 }
             ],
             "editor/context": [
                 {
-                    "when": "resourceLangId == html",
-                    "command": "extension.openInDefaultBrowser",
+                    "when": "resourceLangId == html || config.open-in-browser.showForAllFiles",
+                    "command": "open-in-browser.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
-                    "when": "resourceLangId == html",
-                    "command": "extension.openInSpecifyBrowser",
+                    "when": "resourceLangId == html || config.open-in-browser.showForAllFiles",
+                    "command": "open-in-browser.openInSpecifyBrowser",
                     "group": "open-in-browser"
                 }
             ],
             "editor/title/context": [
                 {
-                    "when": "resourceLangId == html",
-                    "command": "extension.openInDefaultBrowser",
+                    "when": "resourceLangId == html || config.open-in-browser.showForAllFiles",
+                    "command": "open-in-browser.openInDefaultBrowser",
                     "group": "open-in-browser"
                 },
                 {
-                    "when": "resourceLangId == html",
-                    "command": "extension.openInSpecifyBrowser",
+                    "when": "resourceLangId == html || config.open-in-browser.showForAllFiles",
+                    "command": "open-in-browser.openInSpecifyBrowser",
                     "group": "open-in-browser"
                 }
             ]
@@ -98,17 +121,16 @@
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+        "package": "vsce package",
+        "install-cursor": "npm run package && cursor --install-extension open-in-browser-$npm_package_version.vsix --force"
     },
     "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "tslint": "^5.8.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+        "@types/node": "^22.10.0",
+        "@types/vscode": "^1.75.0",
+        "@vscode/vsce": "^3.6.0",
+        "typescript": "^5.9.0"
     },
     "dependencies": {
-        "opn": "^5.3.0"
+        "open": "^8.4.2"
     }
 }

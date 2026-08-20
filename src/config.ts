@@ -1,38 +1,35 @@
 import { QuickPickItem } from "vscode";
 
+const { apps } = require('open');
+
 interface PickItem extends QuickPickItem {
   [propName: string]: any;
 }
 
 const platform = process.platform;
 
+// apps.* come from `open` and already resolve the binary name per platform
 const chromeItem: PickItem = {
   description: "Windows, Mac, Linux",
   detail: "A fast, secure, and free web browser built for the modern web",
   label: "Google Chrome",
-  standardName: platform === 'win32' 
-                  ? 'chrome' 
-                  : (
-                    platform === 'darwin' 
-                      ? 'google chrome' 
-                      : 'google-chrome'
-                    ),
-  acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc', '谷歌浏览器']
+  standardName: apps.chrome,
+  acceptName: ['chrome', 'google chrome', 'google-chrome', 'gc']
 };
 
 const chromiumItem: PickItem = {
-  description: "Mac",
-  detail: "A fast, secure, and free web browser built for the modern web",
-  label: "Google Chromium",
-  standardName: "Chromium",
+  description: "Mac, Linux",
+  detail: "The open source project behind Google Chrome",
+  label: "Chromium",
+  standardName: platform === 'darwin' ? 'Chromium' : 'chromium-browser',
   acceptName: ['chromium']
 };
 const firefoxItem: PickItem = {
   description: "Windows, Mac, Linux",
   detail: "A fast, smart and personal web browser",
   label: "Mozilla Firefox",
-  standardName: "firefox",
-  acceptName: ['firefox', 'ff', 'mozilla firefox', '火狐浏览器']
+  standardName: apps.firefox,
+  acceptName: ['firefox', 'ff', 'mozilla firefox']
 };
 const firefoxDeveloperItem: PickItem = {
   description: "Mac",
@@ -50,10 +47,10 @@ const ieItem: PickItem = {
   acceptName: ['ie', 'iexplore']
 };
 const edgeItem: PickItem = {
-  description: "Windows",
-  detail: "A modern browser aiming to replace ie",
+  description: "Windows, Mac, Linux",
+  detail: "The chromium based browser from Microsoft",
   label: "Microsoft Edge",
-  standardName: "MicrosoftEdge",
+  standardName: apps.edge,
   acceptName: ['edge', 'msedge', 'microsoftedge']
 };
 
@@ -66,22 +63,23 @@ const safariItem: PickItem = {
 };
 
 const operaItem: PickItem = {
-  description: "Windows, Mac",
+  description: "Windows, Mac, Linux",
   detail: 'A fast, secure, easy-to-use browser',
   label: 'Opera',
   standardName: 'opera',
   acceptName: ['opera']
 };
 
-const browsers = [chromeItem, firefoxItem, operaItem];
+const browsers = [chromeItem, firefoxItem, edgeItem, operaItem];
 
-if (process.platform === 'win32') {
+if (platform === 'win32') {
   browsers.push(ieItem);
-  browsers.push(edgeItem);
-} else if (process.platform === 'darwin') {
+} else if (platform === 'darwin') {
   browsers.push(safariItem);
   browsers.push(chromiumItem);
   browsers.push(firefoxDeveloperItem);
+} else {
+  browsers.push(chromiumItem);
 }
 
 export default {
