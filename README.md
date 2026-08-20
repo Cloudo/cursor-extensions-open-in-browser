@@ -47,6 +47,8 @@ Mac gets its own bindings because `Option + B` types a character and `Cmd + Opti
 
 Both commands are also available in the command palette (`Open in Browser: ...`) and in the context menu of the editor, the editor tab and the explorer.
 
+![the two commands the extension adds to the context menu](images/context-menu.png)
+
 `Open In Other Browsers` shows the list of browsers available on your platform, `Open In Default Browser` uses the system default browser unless you configured another one.
 
 ## Settings
