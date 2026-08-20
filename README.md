@@ -22,7 +22,13 @@ A maintained fork of [techer.open-in-browser](https://github.com/SudoKillMe/vsco
 
 ## Install
 
-The extension is not published yet, so build and install the package locally:
+Search for `Open in Browser` in the Extensions panel of Cursor and pick the one published by `cloudo`, or install it by id:
+
+```bash
+cursor --install-extension cloudo.open-in-browser
+```
+
+To build and install from source instead:
 
 ```bash
 npm install && npm run install-cursor
@@ -32,10 +38,12 @@ That builds `open-in-browser-<version>.vsix` and installs it into Cursor. Reload
 
 ## Usage
 
-|key|command|
-|------|------|
-|`Alt + B`|open in default browser|
-|`Shift + Alt + B`|open in specified browser|
+|command|Windows, Linux|Mac|
+|------|------|------|
+|open in default browser|`Alt + B`|`Ctrl + Alt + B`|
+|open in specified browser|`Shift + Alt + B`|`Shift + Ctrl + Alt + B`|
+
+Mac gets its own bindings because `Option + B` types a character and `Cmd + Option + B` already toggles the secondary side bar.
 
 Both commands are also available in the command palette (`Open in Browser: ...`) and in the context menu of the editor, the editor tab and the explorer.
 
@@ -66,6 +74,12 @@ npm run watch
 ```
 
 Press `F5` in Cursor to start an extension host with the extension loaded.
+
+`master` is protected: every change goes through a pull request, direct pushes and force pushes are rejected.
+
+## Releasing
+
+Bump `version` in `package.json` and add a `CHANGELOG.md` entry in the same pull request. Merging it into `master` is the release: the publish workflow packages the vsix, pushes it to Open VSX and attaches it to a GitHub release. Cursor serves third party extensions from Open VSX through its own proxy, so a new version shows up there once both have indexed it.
 
 ## Changelog
 
