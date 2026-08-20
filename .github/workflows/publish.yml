@@ -1,0 +1,55 @@
+name: publish
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # cursor has no publishing endpoint of its own, it mirrors open vsx,
+      # so the version already there is what tells us whether to publish
+      - id: check
+        run: |
+          name=$(node -p "require('./package.json').name")
+          publisher=$(node -p "require('./package.json').publisher")
+          version=$(node -p "require('./package.json').version")
+          published=$(curl -s "https://open-vsx.org/api/$publisher/$name/latest" | jq -r '.version // "none"')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "vsix=$name-$version.vsix" >> "$GITHUB_OUTPUT"
+          if [ "$version" = "$published" ]; then
+            echo "$publisher.$name@$version is already on open vsx, nothing to publish"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - if: steps.check.outputs.publish == 'true'
+        run: npm ci
+
+      - if: steps.check.outputs.publish == 'true'
+        run: npx vsce package -o ${{ steps.check.outputs.vsix }}
+
+      - if: steps.check.outputs.publish == 'true'
+        run: npx ovsx publish ${{ steps.check.outputs.vsix }} -p "$OVSX_TOKEN"
+        env:
+          OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+
+      # the vsix on the release is the fallback while open vsx and the cursor
+      # proxy are still indexing the new version
+      - if: steps.check.outputs.publish == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.check.outputs.version }}
+          files: ${{ steps.check.outputs.vsix }}
