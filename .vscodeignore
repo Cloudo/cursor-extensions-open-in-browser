@@ -1,0 +1,17 @@
+.github/**
+.vscode/**
+.vscode-test/**
+src/**
+out/**/*.map
+node_modules/.bin/**
+.gitignore
+.eslintrc.json
+jsconfig.json
+tsconfig.json
+package-lock.json
+yarn.lock
+vsc-extension-quickstart.md
+DECISIONS.md
+images/old.png
+images/usage.png
+**/*.vsix

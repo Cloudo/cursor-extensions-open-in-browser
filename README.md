@@ -1,48 +1,76 @@
+# Open in Browser (Cursor)
 
+Open the current file in your default browser or in any other installed browser.
 
-# Open in Browser
+A maintained fork of [techer.open-in-browser](https://github.com/SudoKillMe/vscode-extensions-open-in-browser) (last released in 2018), adapted for Cursor.
 
-## What's new?
-* rewrite the code with TypeScript, now it dependes on a tiny library [npm/opn](https://www.npmjs.com/package/opn)
-* support more browsers: **Chromium**(*Mac only*), **Firefox Developer Edition**(*Mac only*), **Edge**(*Windows only, __sometimes it won't work__*)
-* you can open *__any__* type of file with the default program, not only *__html__* file. 
+## What's different from the original
 
-## How it works?
+* works with current Cursor / VS Code: `engines` bumped to `^1.75.0`, dead `vscode` npm module replaced with `@types/vscode`
+* runs in restricted (untrusted) workspaces - the original was silently disabled there
+* declared as a `ui` extension, so it opens the browser on your local machine when you work over Remote SSH
+* the unmaintained `opn` dependency replaced with `open@8`; Edge is now offered on Mac and Linux too
+* tells you what went wrong instead of failing silently: unsaved file, unknown browser name in the settings, browser not installed
+* context menu items can be shown for every file type, not only html (`open-in-browser.showForAllFiles`)
+* the published package is ~37 KB instead of ~10 MB (the original shipped its dev dependencies)
+
+## How it works
+
 * on *win32* uses `start`
 * on *darwin* uses `open`
 * otherwise uses the `xdg-open` script from [freedesktop.org](https://portland.freedesktop.org/doc/xdg-open.html)
 
+## Install
+
+The extension is not published yet, so build and install the package locally:
+
+```bash
+npm install && npm run install-cursor
+```
+
+That builds `open-in-browser-<version>.vsix` and installs it into Cursor. Reload Cursor afterwards.
+
 ## Usage
-use `Alt + B` shortcut to open current *html* file in default browser, or `Shift + Alt + B` to choose a browser.
-you could also right click just like the picture:
-![img](https://i.loli.net/2018/08/12/5b6fb8f378e8b.jpg)
-
-when you choose `open in Other Browsers`, a browser list will display, and you could choose one to open current file.
-![img](https://i.loli.net/2018/08/12/5b6fb86934f8f.png)
-
-when you choose `open in Default Browser`, it means *system default browser* by default. If you want to configure the default browser, you could override it like that:
-![img](https://i.loli.net/2018/08/12/5b6fb86942af1.jpg)
-if you configured the default browser, when you choose `open in Default Browser`, your configured browser will works.
-
-you do not need to set `open-in-browser.default` a very accurate value, as long as the value matches any of the following terms, I will handle it:
-__*Chrome*__ values: *chrome*, *google chrome*, *google-chrome*, *gc*
-__*Firefox*__ values: *firefox*, *mozilla firefox*, *ff* 
-__*IE*__ values: *ie*, *iexplore*
-__*Safari*__ values: *safari*
-__*Opera*__ values: *opera*
-__*Chromium*__ values: *chromium*
-__*Firefox Developer Edition*__ values: *firefox developer*, *fde*, *firefox developer edition*
-__*Edge*__ values: *edge*, *msedge*, *microsoftedge*
-
-## Shortcuts
 
 |key|command|
 |------|------|
 |`Alt + B`|open in default browser|
 |`Shift + Alt + B`|open in specified browser|
 
+Both commands are also available in the command palette (`Open in Browser: ...`) and in the context menu of the editor, the editor tab and the explorer.
+
+`Open In Other Browsers` shows the list of browsers available on your platform, `Open In Default Browser` uses the system default browser unless you configured another one.
+
+## Settings
+
+|setting|default|description|
+|------|------|------|
+|`open-in-browser.default`|`""`|browser used by `Alt + B`, empty means the system default|
+|`open-in-browser.showForAllFiles`|`false`|show the context menu items for every file, not only for html|
+
+`open-in-browser.default` does not need an exact value, any of these works:
+
+__*Chrome*__: *chrome*, *google chrome*, *google-chrome*, *gc*
+__*Firefox*__: *firefox*, *mozilla firefox*, *ff*
+__*Edge*__: *edge*, *msedge*, *microsoftedge*
+__*Safari*__: *safari*
+__*Opera*__: *opera*
+__*Chromium*__: *chromium*
+__*Firefox Developer Edition*__: *firefox developer*, *fde*, *firefox developer edition*
+__*IE*__: *ie*, *iexplore*
+
+## Development
+
+```bash
+npm run watch
+```
+
+Press `F5` in Cursor to start an extension host with the extension loaded.
+
 ## Changelog
-see [changelog](CHANGELOG.MD) for more infomation
+
+see [changelog](CHANGELOG.md)
 
 ## License
-[MIT](https://raw.githubusercontent.com/DonJayamanne/bowerVSCode/master/LICENSE)
+
+[MIT](LICENSE.txt)
