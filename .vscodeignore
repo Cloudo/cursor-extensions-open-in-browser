@@ -12,6 +12,4 @@ package-lock.json
 yarn.lock
 vsc-extension-quickstart.md
 DECISIONS.md
-images/old.png
-images/usage.png
 **/*.vsix

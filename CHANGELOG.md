@@ -1,4 +1,9 @@
 # Change Log
+### [3.1.0]
+* separate mac keybindings: `ctrl+alt+b` and `shift+ctrl+alt+b`, since `option+b` types a character and `cmd+option+b` is taken by the secondary side bar
+* marketplace copy says what sets this fork apart from the original, keywords trimmed to the five the marketplace accepts
+* readme covers installing from the registry and how a release is cut
+
 ### [3.0.0]
 Cursor fork, published as `cloudo.open-in-browser`.
 
